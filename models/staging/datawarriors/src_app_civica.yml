@@ -1,0 +1,33 @@
+version: 2
+
+sources:
+
+  - name: app_civica
+    description: >
+      Raw data from APP Civica.
+    schema: app_civica # this is the schema our raw data lives in Snowflake
+    database: |
+      {%- if  target.name == 'dev' -%} dev_bronze_db_datawarriors 
+      {%- elif target.name == 'ci' -%} dev_bronze_db_datawarriors  
+      {%- elif target.name == 'pro'-%} pro_bronze_db_datawarriors
+      {%- else -%} {{target.database}}_bronze_db_datawarriors 
+      {%- endif -%}
+
+    quoting:
+      database: false
+      schema: false
+      identifier: false
+
+    freshness:
+      warn_after: {count: 24, period: hour}
+      error_after: {count: 48, period: hour}
+
+    tables:
+      - name: django_content_type
+        columns:
+          - name: id
+            description: ""
+          - name: app_label
+            description: ""
+          - name: model
+            description: ""
