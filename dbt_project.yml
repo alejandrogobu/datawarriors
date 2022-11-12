@@ -33,7 +33,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 models:
   +transient: false
-  datawarrios:
+  datawarriors:
     staging:
       +database: |  
         {%- if  target.name == 'dev' -%} dev_silver_db_datawarriors
@@ -41,15 +41,15 @@ models:
         {%- elif target.name == 'pro' -%} pro_silver_db_datawarriors 
         {%- else -%} {{target.database}}_silver_db_datawarriors 
         {%- endif -%}
-      +materialized: views
+      app_civica:
+        +schema: app_civica
     marts:
       +database: | 
         {%- if  target.name == 'dev' -%} dev_gold_db_datawarriors 
-        {%- elif target.name == 'ci' -%} dev_gold_db_datawarriors
+        {%- elif target.name == 'ci' -%} dev_gold_db_datawarriors   
         {%- elif target.name == 'pro'  -%} pro_gold_db_datawarriors
         {%- else -%} {{target.database}}_gold_db_datawarriors 
         {%- endif -%}
-      +materialized: views
       core:
         +schema: core
 
