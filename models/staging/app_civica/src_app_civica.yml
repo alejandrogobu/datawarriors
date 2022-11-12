@@ -1,0 +1,141 @@
+version: 2
+
+sources:
+
+  - name: app_civica
+    description: >
+      Raw data from APP Civica.
+    schema: app_civica # this is the schema our raw data lives in Snowflake
+    database: |
+      {%- if  target.name == 'dev' -%} dev_bronze_db_datawarriors 
+      {%- elif target.name == 'ci' -%} dev_bronze_db_datawarriors  
+      {%- elif target.name == 'pro'-%} pro_bronze_db_datawarriors
+      {%- else -%} {{target.database}}_bronze_db_datawarriors 
+      {%- endif -%}
+
+    quoting:
+      database: false
+      schema: false
+      identifier: false
+
+    freshness:
+      warn_after: {count: 24, period: hour}
+      error_after: {count: 48, period: hour}
+
+    tables:
+      - name: benefit
+        columns:
+          - name: id
+            description: ""
+          - name: scope
+            description: ""
+          - name: saving
+            description: ""
+          - name: cost
+            description: ""
+          - name: unity
+            description: ""
+          - name: date_entry
+            description: ""
+          - name: date_leaving
+            description: ""
+          - name: date_mod
+            description: ""
+          - name: des_bnf
+            description: ""
+          - name: company_id
+            description: ""
+
+      - name: company
+        columns:
+          - name: id
+            description: ""
+          - name: name
+            description: ""
+          - name: cif
+            description: ""
+          - name: date_entry
+            description: ""
+          - name: date_leaving
+            description: ""
+          - name: cod_cnae
+            description: ""
+          - name: des_cnae
+            description: ""
+          - name: category
+            description: ""
+          - name: subcategory
+            description: ""
+          - name: user_id
+            description: ""
+          - name: offert_id
+            description: ""
+
+      - name: offert
+        columns:
+          - name: id
+            description: ""
+          - name: company_name
+            description: ""
+          - name: cif
+            description: ""
+          - name: des
+            description: ""
+          - name: type_of
+            description: ""
+          - name: date_entry
+            description: ""
+          - name: date_mod
+            description: ""
+          - name: date_resolved
+            description: ""
+          - name: user_id
+            description: ""
+
+      - name: request
+        columns:
+          - name: id
+            description: ""
+          - name: date
+            description: ""
+          - name: benefit_id
+            description: ""
+          - name: user_id
+            description: ""
+
+      - name: user_civicauser
+        columns:
+          - name: id
+            description: ""
+          - name: last_login
+            description: ""
+          - name: is_superuser
+            description: ""
+          - name: first_name
+            description: ""
+          - name: last_name
+            description: ""
+          - name: is_staff
+            description: ""
+          - name: is_active
+            description: ""
+          - name: date_joined
+            description: ""
+          - name: email
+            description: ""
+          - name: msal_token
+            description: ""
+          - name: address_street
+            description: ""
+          - name: country
+            description: ""
+          - name: locality
+            description: ""
+          - name: number
+            description: ""
+          - name: region
+            description: ""
+          - name: zip_code
+            description: ""
+          - name: phone
+            description: ""
